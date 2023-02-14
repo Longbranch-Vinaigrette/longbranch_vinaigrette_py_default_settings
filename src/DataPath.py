@@ -3,20 +3,17 @@ and whether local configuration override this"""
 import os
 import json
 
+from app_settings import AppSettings
 
-def get_override_data_path():
+
+# This depends on the project
+def get_override_data_path(app_path: str = os.getcwd()):
     """Get override data path if it exists, otherwise return None"""
-    settings_json_path = f"{os.getcwd()}{os.path.sep}settings.json"
-    if os.path.exists(settings_json_path):
-        with open(settings_json_path) as f:
-            data = json.load(f)
-            try:
-                override_path = data["longbranchVinaigrette"]["overrideDefaultDataPath"]
-                return override_path
-            except:
-                pass
+    return AppSettings(app_path).get_settings() \
+        ["longbranchVinaigrette"]["overrideDefaultDataPath"]
 
 
+# These are global
 def get_default_data_path():
     """Default data path"""
     # Data path can be overrided
