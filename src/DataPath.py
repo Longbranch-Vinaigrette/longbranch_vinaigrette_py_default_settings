@@ -3,7 +3,7 @@ and whether local configuration override this"""
 import os
 import json
 
-from app_settings import AppSettings
+from .app_settings import AppSettings
 
 
 # This depends on the project
@@ -16,11 +16,6 @@ def get_override_data_path(app_path: str = os.getcwd()):
 # These are global
 def get_default_data_path():
     """Default data path"""
-    # Data path can be overrided
-    override_data_path = get_override_data_path()
-    if override_data_path:
-        return override_data_path
-
     cache_folder = f"{os.path.expanduser('~')}{os.path.sep}.cache"
     longbranch_vinaigrette_path = f"{cache_folder}{os.path.sep}longbranch_vinaigrette"
 
@@ -36,6 +31,24 @@ def get_default_data_path():
         os.mkdir(longbranch_vinaigrette_path)
 
     return longbranch_vinaigrette_path
+
+
+def get_data_path():
+    """Get data path
+
+    If there's a path override in 'settings.json', return it,
+    if not return the global data path,
+    this function is preferred over get_default_data path"""
+    try:
+        # Data path can be overrided
+        override_data_path = get_override_data_path()
+        if override_data_path:
+            return override_data_path
+    except:
+        # There's no override
+        pass
+
+    return get_default_data_path()
 
 
 def get_repositories_path():

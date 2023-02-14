@@ -4,8 +4,6 @@ This data is temporary, and must not be submitted to a version hosting service l
 import os
 import json
 
-filename = "local_data.json"
-
 
 def get_local_settings_path() -> str:
     """Get local settings path
@@ -33,6 +31,8 @@ class LocalData:
 
     It's used for handling the file at ./.local/local_data.json
     Previously at ./local_data.json"""
+    filename = "local_data.json"
+
     def __init__(self,
                  folder: str = os.getcwd(),
                  create_if_not_existent: bool = False,
