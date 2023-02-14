@@ -41,3 +41,23 @@ class TestDataPath(unittest.TestCase):
             True,
             "Get repositories path threw a big fat error"
         )
+
+    def test_default_databases_path(self):
+        """Test get repositories path"""
+        DataPath.get_default_databases_path()
+
+        self.assertEqual(
+            True,
+            True,
+            "Get default databases path not working."
+        )
+
+    def test_default_sqlite_databases_path(self):
+        """Test get repositories path"""
+        DataPath.get_default_sqlite_path()
+
+        self.assertEqual(
+            True,
+            True,
+            "Default sqlite databases path not working."
+        )

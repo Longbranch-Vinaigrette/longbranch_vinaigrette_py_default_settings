@@ -6,6 +6,24 @@ import json
 from .app_settings import AppSettings
 
 
+def get_repositories_path():
+    """Path to repositories
+
+    You're guaranteed that the folder exists, because it will be created if it doesn't.
+
+    Note that repository mirror clones the repositories inside a folder
+    with the name of the user(in github)"""
+    repositories_path = f"{os.path.expanduser('~')}{os.path.sep}repositories"
+
+    if not os.path.exists(repositories_path):
+        os.mkdir(repositories_path)
+    if not os.path.isdir(repositories_path):
+        # If it's not a dir, create a dir
+        os.mkdir(repositories_path)
+
+    return repositories_path
+
+
 # This depends on the project
 def get_override_data_path(app_path: str = os.getcwd()):
     """Get override data path if it exists, otherwise return None"""
@@ -26,8 +44,12 @@ def get_default_data_path():
     # - Sigma grindset
     if not os.path.exists(cache_folder):
         os.mkdir(cache_folder)
+    elif os.path.isdir(cache_folder):
+        os.mkdir(cache_folder)
 
     if not os.path.exists(longbranch_vinaigrette_path):
+        os.mkdir(longbranch_vinaigrette_path)
+    elif os.path.isdir(longbranch_vinaigrette_path):
         os.mkdir(longbranch_vinaigrette_path)
 
     return longbranch_vinaigrette_path
@@ -51,19 +73,34 @@ def get_data_path():
     return get_default_data_path()
 
 
-def get_repositories_path():
-    """Path to repositories
+def get_default_databases_path():
+    """Get default database path"""
+    default_data_path = get_default_data_path()
+    databases_path = f"{default_data_path}{os.path.sep}dbs"
 
-    You're guaranteed that the folder exists, because it will be created if it doesn't.
+    if not os.path.exists(databases_path):
+        os.mkdir(databases_path)
+    elif not os.path.isdir(databases_path):
+        os.mkdir(databases_path)
 
-    Note that repository mirror clones the repositories inside a folder
-    with the name of the user(in github)"""
-    repositories_path = f"{os.path.expanduser('~')}{os.path.sep}repositories"
+    return databases_path
 
-    if not os.path.exists(repositories_path):
-        os.mkdir(repositories_path)
-    if not os.path.isdir(repositories_path):
-        # If it's not a dir, create a dir
-        os.mkdir(repositories_path)
 
-    return repositories_path
+def get_default_sqlite_path():
+    """Get default sqlite db storage path"""
+    default_databases_path = get_default_databases_path()
+    default_sqlite_path = f"{default_databases_path}{os.path.sep}sqlite"
+
+    if not os.path.exists(default_sqlite_path):
+        os.mkdir(default_sqlite_path)
+    elif not os.path.isdir(default_sqlite_path):
+        os.mkdir(default_sqlite_path)
+
+    return default_sqlite_path
+
+
+def get_default_sqlite_db_path():
+    """Get default sqlite db path"""
+    default_sqlite_path = get_default_sqlite_path()
+    default_sqlite_db_path = f"{default_sqlite_path}{os.path.sep}default_database.db"
+    return default_sqlite_db_path
