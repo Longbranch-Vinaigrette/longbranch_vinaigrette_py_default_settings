@@ -44,7 +44,16 @@ def get_default_data_path():
 def get_repositories_path():
     """Path to repositories
 
+    You're guaranteed that the folder exists, because it will be created if it doesn't.
+
     Note that repository mirror clones the repositories inside a folder
     with the name of the user(in github)"""
+    repositories_path = f"{os.path.expanduser('~')}{os.path.sep}repositories"
 
-    return os.path.expanduser("~")
+    if not os.path.exists(repositories_path):
+        os.mkdir(repositories_path)
+    if not os.path.isdir(repositories_path):
+        # If it's not a dir, create a dir
+        os.mkdir(repositories_path)
+
+    return repositories_path
